@@ -11,5 +11,6 @@ start:
   classfinal>bbb: ""
   classabs>foo: ""
   interface>avv: ""
+  print>: "Hello"
 
 optimize:

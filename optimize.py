@@ -40,6 +40,12 @@ else:
     output_file.write("\n<?php\n")
 
 for cc in code:
+    if "print>" in cc:
+        other_param = cc.replace("print>", "")
+        if config['MultiSpaces']:
+            output_file.write("\n\nprint \"" + code[cc] + "\";\n")
+        else:
+            output_file.write("print \"" + code[cc] + "\";\n")
     if "interface>" in cc:
         name_class = cc.replace("interface>", "")
         if config['MultiSpaces']:
