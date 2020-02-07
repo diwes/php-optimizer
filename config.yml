@@ -1,0 +1,6 @@
+
+# Auto add php code to end of file #
+AppendFile: false
+
+# Multiple spaces #
+MultiSpaces: true

@@ -5,7 +5,11 @@ start:
   var>a: 0
   var>b: 0
   var>c: 10
-  var>puzd: "Хуй"
+  var>hiVar: "Hello"
   function>test: "$a, $b"
+  class>bly: ""
+  classfinal>bbb: ""
+  classabs>foo: ""
+  interface>avv: ""
 
 optimize:

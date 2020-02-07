@@ -10,6 +10,10 @@ from termcolor import colored
 optimizer = open(sys.argv[1] + ".yaml", "r")
 optimizer = yaml.load(optimizer, Loader=yaml.FullLoader)
 
+# load config
+config = open("config.yml", "r")
+config = yaml.load(config, Loader=yaml.FullLoader)
+
 # Init vars
 filename = optimizer['filename']
 output = optimizer['output']
@@ -25,21 +29,59 @@ if not os.path.exists(os.path.dirname(output)):
         if exc.errno != errno.EEXIST:
             raise
 
-output_file = open(output, "a+")
+if config['AppendFile']:
+    output_file = open(output, "a+")
+else:
+    output_file = open(output, "w+")
 
-output_file.write("\n<?php\n\n")
+if config['MultiSpaces']:
+    output_file.write("\n<?php\n\n")
+else:
+    output_file.write("\n<?php\n")
 
 for cc in code:
+    if "interface>" in cc:
+        name_class = cc.replace("interface>", "")
+        if config['MultiSpaces']:
+            output_file.write("\ninterface " + name_class + "\n{\n\n\n}\n")
+        else:
+            output_file.write("\ninterface " + name_class + "{}\n")
+    if "classabs>" in cc:
+        name_class = cc.replace("classabs>", "")
+        if config['MultiSpaces']:
+            output_file.write("\nabstract class " + name_class + "\n{\n\n\n}\n")
+        else:
+            output_file.write("\nabstract class " + name_class + "{}\n")
+    if "classfinal>" in cc:
+        name_class = cc.replace("classfinal>", "")
+        if config['MultiSpaces']:
+            output_file.write("\nfinal class " + name_class + "\n{\n\n\n}\n")
+        else:
+            output_file.write("\nfinal class " + name_class + "{}\n")
+    if "class>" in cc:
+        name_class = cc.replace("class>", "")
+        if config['MultiSpaces']:
+            output_file.write("\nclass " + name_class + "\n{\n\n\n}\n")
+        else:
+            output_file.write("\nclass " + name_class + "{}\n")
     if "function>" in cc:
         name_function = cc.replace("function>", "")
-        output_file.write("\nfunction " + name_function + "(" + code[cc] + ") {\n" + "\t// Enter code your function " + name_function + "\n}\n")
+        if config['MultiSpaces']:
+            output_file.write("\nfunction " + name_function + "(" + code[
+                cc] + ") {\n" + "\t// Enter code your function " + name_function + "\n}\n")
+        else:
+            output_file.write("function " + name_function + "(" + code[
+                cc] + ") {\n" + "\t// Enter code your function " + name_function + "\n}\n")
     if "var>" in cc:
         if type(code[cc]) == str:
             output_file.write("$" + cc.replace("var>", "") + " = \"" + str(code[cc]) + "\";\n")
         else:
             output_file.write("$" + cc.replace("var>", "") + " = " + str(code[cc]) + ";\n")
 
-output_file.write("\n?>\n")
+if config['MultiSpaces']:
+    output_file.write("\n?>\n")
+else:
+    output_file.write("\n?>")
 
 output_file.close()
 
