@@ -1,0 +1,10 @@
+filename: "test2.php"
+output: "./tests/output/test2_optimized.php"
+
+start:
+  var>a: 0
+  var>b: 0
+  var>c: 10
+  var>puzd: "Хуй"
+
+optimize:
