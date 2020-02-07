@@ -6,5 +6,6 @@ start:
   var>b: 0
   var>c: 10
   var>puzd: "Хуй"
+  function>test: "$a, $b"
 
 optimize:

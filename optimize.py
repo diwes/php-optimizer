@@ -25,18 +25,21 @@ if not os.path.exists(os.path.dirname(output)):
         if exc.errno != errno.EEXIST:
             raise
 
-output_file = open(output, "w+")
+output_file = open(output, "a+")
 
-output_file.write("<?php\n")
+output_file.write("\n<?php\n\n")
 
 for cc in code:
+    if "function>" in cc:
+        name_function = cc.replace("function>", "")
+        output_file.write("\nfunction " + name_function + "(" + code[cc] + ") {\n" + "\t// Enter code your function " + name_function + "\n}\n")
     if "var>" in cc:
         if type(code[cc]) == str:
             output_file.write("$" + cc.replace("var>", "") + " = \"" + str(code[cc]) + "\";\n")
         else:
             output_file.write("$" + cc.replace("var>", "") + " = " + str(code[cc]) + ";\n")
 
-output_file.write("?>\n")
+output_file.write("\n?>\n")
 
 output_file.close()
 
