@@ -1,0 +1,11 @@
+filename: "laravel2.php"
+output: "./tests/output/laravel2_optimized.php"
+
+start:
+  var>a: "1"
+  route:get>/: "function() { return view('welcome'); }"
+  route:get>/a: "function() { return view('welcome'); }"
+  route:post>/b: "function() { return view('welcome'); }"
+
+optimize:
+  - laravel

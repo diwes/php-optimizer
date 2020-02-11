@@ -14,6 +14,10 @@ optimizer = yaml.load(optimizer, Loader=yaml.FullLoader)
 config = open("config.yml", "r")
 config = yaml.load(config, Loader=yaml.FullLoader)
 
+if len(sys.argv) > 2:
+    if (sys.argv[2].lower() == "--append"):
+        config['AppendFile'] = 1
+
 # Init vars
 filename = optimizer['filename']
 output = optimizer['output']
@@ -38,6 +42,7 @@ if config['MultiSpaces']:
     output_file.write("\n<?php\n\n")
 else:
     output_file.write("\n<?php\n")
+
 
 for cc in code:
     if "print>" in cc:
@@ -83,6 +88,15 @@ for cc in code:
             output_file.write("$" + cc.replace("var>", "") + " = \"" + str(code[cc]) + "\";\n")
         else:
             output_file.write("$" + cc.replace("var>", "") + " = " + str(code[cc]) + ";\n")
+
+if ("laravel" in optimizer['optimize']):
+    for cc in code:
+        if "route:get>" in cc:
+            other_param = cc.replace("route:get>", "")
+            output_file.write("\nRoute::get('" + other_param + "', " + code[cc] + ");\n")
+        if "route:post>" in cc:
+            other_param = cc.replace("route:post>", "")
+            output_file.write("\nRoute::post('" + other_param + "', " + code[cc] + ");\n")
 
 if config['MultiSpaces']:
     output_file.write("\n?>\n")
