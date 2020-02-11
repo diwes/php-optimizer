@@ -17,6 +17,6 @@ pip install -r requirements.txt
 after you need to try to get information from optimizers
 
 ```shell
-py ./optimizer.py {default: myself , you file optimizer not use .yaml}
+py ./optimize.py {default: myself , you file optimizer not use .yaml}
 ```
 
